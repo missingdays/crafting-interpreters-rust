@@ -1,5 +1,4 @@
 use super::opcode;
-use std::cell::Cell;
 
 pub struct VM<'a> {
     chunk: &'a opcode::Chunk,
