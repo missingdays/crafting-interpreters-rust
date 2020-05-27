@@ -9,7 +9,29 @@ pub fn disassemble_chunk(chunk: &opcode::Chunk, name: &str) {
 }
 
 fn disassemble_intruction(chunk: &opcode::Chunk, offset: usize) -> usize {
-    let opcode = &chunk[offset];
-    println!("{:04} {}", offset, opcode);
+    let byte = &chunk[offset];
+    let opcode = opcode::OpCode::from_byte(*byte);
+
+    print!("{:04} ", offset);
+
+    if offset > 0 && chunk.get_line(offset) == chunk.get_line(offset - 1) {
+        print!("  | ");
+    } else {
+        print!("{:03} ", chunk.get_line(offset));
+    }
+
+    match opcode {
+        opcode::OpCode::Return => {
+            print!("{}", opcode);
+        },
+
+        opcode::OpCode::Constant => {
+            let constant_index = chunk[offset + 1];
+            let constant_value = chunk.get_constant(constant_index);
+            print!("{} {}", opcode, constant_value);
+        }
+    }
+    println!("");
+
     offset + opcode.size()
 }
