@@ -3,15 +3,15 @@ use std::cell::Cell;
 
 pub struct VM<'a> {
     chunk: &'a opcode::Chunk,
-    ip: Cell<usize>
+    ip: usize
 }
 
 impl <'a> VM<'a> {
     pub fn new(chunk: &'a opcode::Chunk) -> VM {
-        VM { chunk: chunk, ip: Cell::new(0) }
+        VM { chunk: chunk, ip: 0 }
     }
 
-    pub fn interpret(&self) -> InterpretResult {
+    pub fn interpret(&mut self) -> InterpretResult {
         loop {
             let byte = self.next_byte();
             let opcode = opcode::OpCode::from_byte(byte);
@@ -25,14 +25,14 @@ impl <'a> VM<'a> {
         }
     }
 
-    fn next_byte(&self) -> u8 {
-        let ip = self.ip.get();
+    fn next_byte(&mut self) -> u8 {
+        let ip = self.ip;
         let byte = self.chunk.get_byte(ip);
-        self.ip.set(ip + 1);
+        self.ip = ip + 1;
         byte
     }
 
-    fn read_constant(&self) -> u8 {
+    fn read_constant(&mut self) -> u8 {
         let byte = self.next_byte();
         byte
     }
