@@ -30,6 +30,10 @@ impl Chunk {
         self.lines[offset]
     }
 
+    pub fn get_byte(&self, offset: usize) -> u8 {
+        self.code[offset]
+    }
+
     pub fn len(&self) -> usize {
         self.code.len()
     }
