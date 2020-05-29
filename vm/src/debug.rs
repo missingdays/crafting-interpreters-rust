@@ -21,14 +21,14 @@ fn disassemble_intruction(chunk: &opcode::Chunk, offset: usize) -> usize {
     }
 
     match opcode {
-        opcode::OpCode::Return => {
-            print!("{}", opcode);
-        },
-
         opcode::OpCode::Constant => {
             let constant_index = chunk[offset + 1];
             let constant_value = chunk.get_constant(constant_index);
             print!("{} {}", opcode, constant_value);
+        },
+
+        _ => {
+            print!("{}", opcode);
         }
     }
     println!("");

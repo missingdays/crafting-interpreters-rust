@@ -26,6 +26,35 @@ impl <'a> VM<'a> {
                     let constant_index = self.read_constant();
                     let constant = self.chunk.get_constant(constant_index);
                     self.push(constant);
+                },
+
+                opcode::OpCode::Negate => {
+                    let value = self.pop();
+                    self.push(-value);
+                },
+
+                opcode::OpCode::Add => {
+                    let v1 = self.pop();
+                    let v2 = self.pop();
+                    self.push(v1 + v2);
+                },
+
+                opcode::OpCode::Substract => {
+                    let v1 = self.pop();
+                    let v2 = self.pop();
+                    self.push(v1 - v2);
+                },
+
+                opcode::OpCode::Multiply => {
+                    let v1 = self.pop();
+                    let v2 = self.pop();
+                    self.push(v1 * v2);
+                },
+
+                opcode::OpCode::Divide => {
+                    let v1 = self.pop();
+                    let v2 = self.pop();
+                    self.push(v1 / v2);
                 }
             }
         }
